@@ -11,7 +11,7 @@
     "format": "prettier --write ."
   },
   "engines": {
-    "node": "12.18.3"
+    "node": "14.17.4"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.1",
