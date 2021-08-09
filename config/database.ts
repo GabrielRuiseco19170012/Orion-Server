@@ -7,8 +7,8 @@
 
 import Env from '@ioc:Adonis/Core/Env'
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
-import Url from ‘url-parse’
-const CLEARDB_DATABASE_URL = new Url(Env.get(‘CLEARDB_DATABASE_URL’))
+import Url from 'url-parse'
+const CLEARDB_DATABASE_URL = new Url(Env.get('CLEARDB_DATABASE_URL'))
 
 
 const databaseConfig: DatabaseConfig = {
