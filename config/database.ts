@@ -21,7 +21,7 @@ const databaseConfig: DatabaseConfig = {
   | file.
   |
   */
-  connection: Env.get('mysql'),
+  connection: Env.get('DB_CONNECTION'),
 
   connections: {
     /*
@@ -38,11 +38,11 @@ const databaseConfig: DatabaseConfig = {
     mysql: {
       client: 'mysql',
       connection: {
-        host: CLEARDB_DATABASE_URL.host as string,
+        host: 'us-cdbr-east-04.cleardb.com',
         port: Number(''),
-        user: CLEARDB_DATABASE_URL.username as string,
-        password: CLEARDB_DATABASE_URL.password as string,
-        database: CLEARDB_DATABASE_URL.pathname.substr(1) as string,
+        user: 'b234d485be34cf',
+        password: 'd51d176e',
+        database: 'heroku_ad4f65d04aebe83',
       },
       healthCheck: false,
     },
