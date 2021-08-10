@@ -14,6 +14,8 @@
     "node": "16.6.1"
   },
   "devDependencies": {
+    "@adonisjs/assembler": "^5.3.5",
+    "typescript": "~4.2",
     "adonis-preset-ts": "^2.1.0",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
