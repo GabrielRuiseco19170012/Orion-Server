@@ -70,13 +70,8 @@ export default class UsersController {
   }
 
   public async isLoggedIn({ auth, response }: HttpContextContract) {
-    try{
-      await auth.use('api').authenticate()
-      const status = auth.use('api').isAuthenticated
-      return response.json(status)
-    } catch (e) {
-      console.log(e)
-      return response.json(false)
-    }
+    await auth.use('api').authenticate()
+    const status = auth.use('api').isAuthenticated
+    return response.json(status)
   }
 }
