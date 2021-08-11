@@ -123,6 +123,36 @@ export default class RegisteredFacesController {
     return response.status(200).json(result)
   }
 
+  // public async search({ request, response }: HttpContextContract) {}
+
+  public async createFaceSet({ request, response }: HttpContextContract) {
+    const { name } = request.only(['name'])
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/create', {
+        api_key: Env.get('FACEAPIKEY'),
+        api_secret: Env.get('FACEAPISECRET'),
+        display_name: name,
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    return response.status(200).json(result)
+  }
+
+  public async createFaceToken({ request, response }: HttpContextContract) {
+    const { url1 } = request.only(['url1'])
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
+        api_key: Env.get('FACEAPIKEY'),
+        api_secret: Env.get('FACEAPISECRET'),
+        image_url1: url1,
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    return response.status(200).json(result)
+  }
+
   public async getAll({ response }) {
     const data = await Person.find({})
     try {
