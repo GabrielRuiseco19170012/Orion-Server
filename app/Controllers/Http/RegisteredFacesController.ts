@@ -61,23 +61,6 @@ export default class RegisteredFacesController {
 
   public async serveFile({ request, response }: HttpContextContract) {
     return response.attachment(Application.tmpPath('uploads', request.input('photo')))
-    // const fileSchema = schema.create({
-    //   image: schema.file({
-    //     size: '2mb',
-    //     extnames: ['jpg', 'gif', 'png'],
-    //   }),
-    // })
-    // const coverImage = request.file('image', {
-    //   size: '2mb',
-    //   extnames: ['jpg', 'png', 'gif'],
-    // })
-    // // @ts-ignore
-    // const fileName = `${cuid()}.${coverImage.extname}`
-    // const payload = await request.validate({ schema: fileSchema })
-    // if (payload) {
-    //   await payload.image.move(Application.tmpPath('uploads'), { name: fileName })
-    //   return response.status(201).send({ message: 'file saved' })
-    // }
   }
 
   public async show({ request, response }: HttpContextContract) {
@@ -145,7 +128,7 @@ export default class RegisteredFacesController {
       .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
         api_key: Env.get('FACEAPIKEY'),
         api_secret: Env.get('FACEAPISECRET'),
-        image_url1: url1,
+        image_url: url1,
       })
       .catch(function (error) {
         console.log(error)
