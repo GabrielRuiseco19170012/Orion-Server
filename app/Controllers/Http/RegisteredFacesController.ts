@@ -95,11 +95,13 @@ export default class RegisteredFacesController {
     // @ts-ignore
     const { url1, url2 } = request.only(['url1, url2'])
     const result = await axios
-      .post('https://api-us.faceplusplus.com/facepp/v3/compare', {
-        api_key: Env.get('FACEAPIKEY'),
-        api_secret: Env.get('FACEAPISECRET'),
-        image_url1: url1,
-        image_url2: url2,
+      .post('https://api-us.faceplusplus.com/facepp/v3/compare', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          image_url1: url1,
+          image_url2: url2,
+        },
       })
       .catch(function (error) {
         console.log(error)
@@ -110,11 +112,13 @@ export default class RegisteredFacesController {
   public async search({ request, response }: HttpContextContract) {
     const { imageUrl, faceSetToken } = request.only(['imageUrl', 'faceSetToken'])
     const result = await axios
-      .post('https://api-us.faceplusplus.com/facepp/v3/search', {
-        api_key: Env.get('FACEAPIKEY'),
-        api_secret: Env.get('FACEAPISECRET'),
-        image_url: imageUrl,
-        faceset_token: faceSetToken,
+      .post('https://api-us.faceplusplus.com/facepp/v3/search', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          image_url: imageUrl,
+          faceset_token: faceSetToken,
+        },
       })
       .catch(function (error) {
         console.log(error)
@@ -125,10 +129,12 @@ export default class RegisteredFacesController {
   public async createFaceSet({ request, response }: HttpContextContract) {
     const { name } = request.only(['name'])
     const result = await axios
-      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/create', {
-        api_key: Env.get('FACEAPIKEY'),
-        api_secret: Env.get('FACEAPISECRET'),
-        display_name: name,
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/create', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          display_name: name,
+        },
       })
       .catch(function (error) {
         console.log(error)
@@ -163,8 +169,8 @@ export default class RegisteredFacesController {
   public async mongoUpdate({ request, response }: HttpContextContract) {
     const { photo } = request.only(['photo'])
     const data = Person.updateOne(
-      { "photo": photo.toString() },
-      { $set: { "photo": photo.toString(), "face_token": "updated" } }
+      { photo: photo.toString() },
+      { $set: { photo: photo.toString(), face_token: 'updated' } }
     )
     return response.status(200).json(data, data.n)
   }
@@ -172,11 +178,13 @@ export default class RegisteredFacesController {
   public async addFaceToFS({ request, response }: HttpContextContract) {
     const { faceSetToken, faceTokens } = request.only(['faceSetToken', 'faceTokens'])
     const result = await axios
-      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/addface', {
-        api_key: Env.get('FACEAPIKEY'),
-        api_secret: Env.get('FACEAPISECRET'),
-        faceset_token: faceSetToken,
-        face_tokens: faceTokens,
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/addface', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          faceset_token: faceSetToken,
+          face_tokens: faceTokens,
+        },
       })
       .catch(function (error) {
         console.log(error)
@@ -187,11 +195,13 @@ export default class RegisteredFacesController {
   public async removeFaceToFS({ request, response }: HttpContextContract) {
     const { faceSetToken, faceTokens } = request.only(['faceSetToken', 'faceTokens'])
     const result = await axios
-      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/removeface', {
-        api_key: Env.get('FACEAPIKEY'),
-        api_secret: Env.get('FACEAPISECRET'),
-        faceset_token: faceSetToken,
-        face_tokens: faceTokens,
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/removeface', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          faceset_token: faceSetToken,
+          face_tokens: faceTokens,
+        },
       })
       .catch(function (error) {
         console.log(error)
