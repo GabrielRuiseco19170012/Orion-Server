@@ -106,7 +106,20 @@ export default class RegisteredFacesController {
     return response.status(200).json(result)
   }
 
-  // public async search({ request, response }: HttpContextContract) {}
+  public async search({ request, response }: HttpContextContract) {
+    const { imageUrl, faceSetToken } = request.only(['imageUrl', 'faceSetToken'])
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/search', {
+        api_key: Env.get('FACEAPIKEY'),
+        api_secret: Env.get('FACEAPISECRET'),
+        image_url: imageUrl,
+        faceset_token: faceSetToken,
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    return response.status(200).json(result)
+  }
 
   public async createFaceSet({ request, response }: HttpContextContract) {
     const { name } = request.only(['name'])
@@ -129,6 +142,36 @@ export default class RegisteredFacesController {
         api_key: Env.get('FACEAPIKEY'),
         api_secret: Env.get('FACEAPISECRET'),
         image_url: url1,
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    return response.status(200).json(result)
+  }
+
+  public async addFaceToFS({ request, response }: HttpContextContract) {
+    const { faceSetToken, faceTokens } = request.only(['faceSetToken', 'faceTokens'])
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/addface', {
+        api_key: Env.get('FACEAPIKEY'),
+        api_secret: Env.get('FACEAPISECRET'),
+        faceset_token: faceSetToken,
+        face_tokens: faceTokens,
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    return response.status(200).json(result)
+  }
+
+  public async removeFaceToFS({ request, response }: HttpContextContract) {
+    const { faceSetToken, faceTokens } = request.only(['faceSetToken', 'faceTokens'])
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/removeface', {
+        api_key: Env.get('FACEAPIKEY'),
+        api_secret: Env.get('FACEAPISECRET'),
+        faceset_token: faceSetToken,
+        face_tokens: faceTokens,
       })
       .catch(function (error) {
         console.log(error)
@@ -165,10 +208,20 @@ export default class RegisteredFacesController {
       const photo = `${cuid()}.${coverImage.extname}`
       const payload = await request.validate({ schema: fileSchema })
       await payload.image.move(Application.tmpPath('uploads'), { name: photo })
-      await Person.create({
+      const result = await axios
+        .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo,
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      const data = await Person.create({
         photo: photo,
+        face_token: result.faces,
       })
-      return response.status(201).send({ message: 'photo has been stored' })
+      return response.status(201).json(data)
     } catch (e) {
       return response.status(400).send({ Error: e.toString() })
     }

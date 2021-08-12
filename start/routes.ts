@@ -43,3 +43,4 @@ Route.get('mongoindex', 'RegisteredFacesController.mongoIndex')
 Route.post('mongocreate', 'RegisteredFacesController.mongoCreate')
 
 Route.post('createFT', 'RegisteredFacesController.createFaceToken')
+Route.post('createFS', 'RegisteredFacesController.createFaceSet')
