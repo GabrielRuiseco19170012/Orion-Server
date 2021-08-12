@@ -136,17 +136,21 @@ export default class RegisteredFacesController {
   }
 
   public async createFaceToken({ request, response }: HttpContextContract) {
-    const { url1 } = request.only(['url1'])
-    const result = await axios
-      .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
-        image_url: url1,
-        api_key: Env.get('FACEAPIKEY'),
-        api_secret: Env.get('FACEAPISECRET'),
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
-    return response.status(200).json(result)
+    try {
+      const { url1 } = request.only(['url1'])
+      const result = await axios
+        .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
+          image_url: url1,
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      return response.status(200).json(result)
+    } catch (e) {
+      return response.json(e)
+    }
   }
 
   public async addFaceToFS({ request, response }: HttpContextContract) {
@@ -208,23 +212,20 @@ export default class RegisteredFacesController {
       const photo = `${cuid()}.${coverImage.extname}`
       const payload = await request.validate({ schema: fileSchema })
       await payload.image.move(Application.tmpPath('uploads'), { name: photo })
-      const result = await axios
-        .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
-          api_key: Env.get('FACEAPIKEY'),
-          api_secret: Env.get('FACEAPISECRET'),
-          image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo.toString(),
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-      console.log(result)
+      // const result = await axios
+      //   .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
+      //     api_key: Env.get('FACEAPIKEY'),
+      //     api_secret: Env.get('FACEAPISECRET'),
+      //     image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo.toString(),
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error)
+      //   })
       const data = await Person.create({
         photo: photo,
         // face_token: result,
       })
-      console.log(result)
-      console.log(data)
-      return response.status(201).json(data, result)
+      return response.status(201).json(data)
     } catch (e) {
       return response.status(400).send({ Error: e.toString() })
     }
