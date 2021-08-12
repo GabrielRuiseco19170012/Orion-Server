@@ -214,13 +214,12 @@ export default class RegisteredFacesController {
       const photo = `${cuid()}.${coverImage.extname}`
       const payload = await request.validate({ schema: fileSchema })
       await payload.image.move(Application.tmpPath('uploads'), { name: photo })
-      const { url1 } = request.only(['url1'])
       const result = await axios
         .post('https://api-us.faceplusplus.com/facepp/v3/detect', null, {
           params: {
             api_key: Env.get('FACEAPIKEY'),
             api_secret: Env.get('FACEAPISECRET'),
-            image_url: url1,
+            image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo,
           },
         })
         .catch(function (error) {
