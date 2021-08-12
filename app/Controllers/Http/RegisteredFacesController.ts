@@ -153,7 +153,7 @@ export default class RegisteredFacesController {
         { photo: photo },
         { face_token: result.data.faces[0].face_token }
       )
-      return response.status(200).json(data)
+      return response.status(200).json(data.n, data.nModified)
     } catch (e) {
       return response.json(e)
     }
