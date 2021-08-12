@@ -165,7 +165,7 @@ export default class RegisteredFacesController {
       { photo: photo },
       { $set: { photo: photo, face_token: 'updated' } }
     )
-    return response.status(200).json(data, data.n, data.nModified)
+    return response.status(200).json(data)
   }
 
   public async addFaceToFS({ request, response }: HttpContextContract) {
