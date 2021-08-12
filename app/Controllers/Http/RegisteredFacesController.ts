@@ -212,7 +212,7 @@ export default class RegisteredFacesController {
         .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
           api_key: Env.get('FACEAPIKEY'),
           api_secret: Env.get('FACEAPISECRET'),
-          image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo,
+          image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo.toString(),
         })
         .catch(function (error) {
           console.log(error)
