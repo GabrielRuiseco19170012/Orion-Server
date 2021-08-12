@@ -217,7 +217,7 @@ export default class RegisteredFacesController {
         .catch(function (error) {
           console.log(error)
         })
-      const data = await Person.create({
+      await Person.create({
         photo: photo,
         // face_token: result,
       })
