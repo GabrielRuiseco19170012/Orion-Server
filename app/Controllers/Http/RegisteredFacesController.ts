@@ -219,9 +219,9 @@ export default class RegisteredFacesController {
         })
       const data = await Person.create({
         photo: photo,
-        face_token: result.faces,
+        // face_token: result,
       })
-      return response.status(201).json(data)
+      return response.status(201).json(result)
     } catch (e) {
       return response.status(400).send({ Error: e.toString() })
     }
