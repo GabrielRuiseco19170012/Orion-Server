@@ -217,11 +217,14 @@ export default class RegisteredFacesController {
         .catch(function (error) {
           console.log(error)
         })
-      await Person.create({
+      console.log(result)
+      const data = await Person.create({
         photo: photo,
         // face_token: result,
       })
-      return response.status(201).json(result)
+      console.log(result)
+      console.log(data)
+      return response.status(201).json(data, result)
     } catch (e) {
       return response.status(400).send({ Error: e.toString() })
     }
