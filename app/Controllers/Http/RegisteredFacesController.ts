@@ -139,9 +139,9 @@ export default class RegisteredFacesController {
     const { url1 } = request.only(['url1'])
     const result = await axios
       .post('https://api-us.faceplusplus.com/facepp/v3/detect', {
+        image_url: url1,
         api_key: Env.get('FACEAPIKEY'),
         api_secret: Env.get('FACEAPISECRET'),
-        image_url: url1,
       })
       .catch(function (error) {
         console.log(error)
