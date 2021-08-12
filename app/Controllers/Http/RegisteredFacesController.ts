@@ -137,13 +137,13 @@ export default class RegisteredFacesController {
 
   public async createFaceToken({ request, response }: HttpContextContract) {
     try {
-      const { photo } = request.only(['photo'])
+      const { photo, url1 } = request.only(['photo', 'url1'])
       const result = await axios
         .post('https://api-us.faceplusplus.com/facepp/v3/detect', null, {
           params: {
             api_key: Env.get('FACEAPIKEY'),
             api_secret: Env.get('FACEAPISECRET'),
-            image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo.toString(),
+            image_url: url1,
           },
         })
         .catch(function (error) {
