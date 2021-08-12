@@ -161,8 +161,11 @@ export default class RegisteredFacesController {
 
   public async mongoUpdate({ request, response }: HttpContextContract) {
     const { photo } = request.only(['photo'])
-    const data = Person.update({ photo: photo }, { $set: { photo: photo, face_token: 'updated' } })
-    return response.status(200).json(data.n, data.nModified)
+    const data = Person.findOneAndUpdate(
+      { photo: photo },
+      { $set: { photo: photo, face_token: 'updated' } }
+    )
+    return response.status(200).json(data, data.n, data.nModified)
   }
 
   public async addFaceToFS({ request, response }: HttpContextContract) {
