@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 const personSchema = new mongoose.Schema(
   {
     photo: String,
+    face_token: String,
   },
   { timestamps: { createdAt: 'created_at' } }
 )
