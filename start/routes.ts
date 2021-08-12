@@ -44,3 +44,5 @@ Route.post('mongocreate', 'RegisteredFacesController.mongoCreate')
 
 Route.post('createFT', 'RegisteredFacesController.createFaceToken')
 Route.post('createFS', 'RegisteredFacesController.createFaceSet')
+
+Route.post('mu', 'RegisteredFacesController.mongoUpdate')
