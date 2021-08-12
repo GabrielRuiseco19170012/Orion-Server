@@ -240,6 +240,7 @@ export default class RegisteredFacesController {
         })
       const data = await Person.create({
         photo: photo,
+        face_token: result.data.faces[0].face_token,
       })
       return response.status(201).json({ person: data.photo, ft: result.data.faces[0].face_token })
     } catch (e) {
