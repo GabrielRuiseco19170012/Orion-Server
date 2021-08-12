@@ -149,7 +149,7 @@ export default class RegisteredFacesController {
         .catch(function (error) {
           console.log(error)
         })
-      return response.status(200).json(result)
+      return response.status(200).json(result.data)
     } catch (e) {
       return response.json(e)
     }
