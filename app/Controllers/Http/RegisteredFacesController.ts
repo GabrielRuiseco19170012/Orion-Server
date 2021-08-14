@@ -227,14 +227,14 @@ export default class RegisteredFacesController {
       const fileSchema = schema.create({
         image: schema.file({
           size: '2mb',
-          // extnames: ['jpg', 'gif', 'png'],
+          extnames: ['jpg', 'gif', 'png'],
         }),
       })
       const coverImage = request.file('image', {
         size: '2mb',
+        extnames: ['jpg', 'gif', 'png'],
       })
       // @ts-ignore
-      console.log(coverImage)
       const photo = `${cuid()}.${coverImage.extname}`
       const payload = await request.validate({ schema: fileSchema })
       await payload.image.move(Application.tmpPath('uploads'), { name: photo })
