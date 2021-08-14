@@ -234,6 +234,7 @@ export default class RegisteredFacesController {
         size: '2mb',
       })
       // @ts-ignore
+      console.log(coverImage)
       const photo = `${cuid()}.${coverImage.extname}`
       const payload = await request.validate({ schema: fileSchema })
       await payload.image.move(Application.tmpPath('uploads'), { name: photo })
