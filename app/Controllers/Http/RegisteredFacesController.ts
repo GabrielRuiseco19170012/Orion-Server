@@ -246,15 +246,21 @@ export default class RegisteredFacesController {
             image_url: 'https://orionserver.herokuapp.com/serveFile?photo=' + photo.toString(),
           },
         })
+        .then(async function (response) {
+          const data = await Person.create({
+            photo: photo,
+            face_token: result.data.faces[0].face_token,
+          })
+          return response
+            .status(201)
+            .json({ photo: data.photo, face_token: result.data.faces[0].face_token })
+        })
         .catch(function (error) {
           console.log(error)
         })
-      const data = await Person.create({
-        photo: photo,
-      })
-      return response
-        .status(201)
-        .json({ photo: data.photo, face_token: result.data.faces[0].face_token })
+      // const data = await Person.create({
+      //   photo: photo,
+      // })
     } catch (e) {
       return response.status(400).send({ Error: e.toString() })
     }
