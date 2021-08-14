@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import Token from 'App/Models/Token'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { schema } from '@ioc:Adonis/Core/Validator'
 
@@ -73,5 +74,11 @@ export default class UsersController {
     await auth.use('api').authenticate()
     const status = auth.use('api').isAuthenticated
     return response.json(status)
+  }
+
+  public async getUID({ request, response }: HttpContextContract) {
+    const { token } = request.only(['token'])
+    const idUser = await Token.query().select('user_id').where('token', token).firstOrFail()
+    response.status(200).json(idUser)
   }
 }
