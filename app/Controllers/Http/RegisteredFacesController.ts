@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 const personSchema = new mongoose.Schema(
   {
     photo: String,
-    idUser: Number,
+    idUser: String,
   },
   { timestamps: { createdAt: 'created_at' } }
 )
@@ -260,14 +260,14 @@ export default class RegisteredFacesController {
     }
   }
 
-  public async mongoIndex({ response }) {
+  public async mongoIndex({ request, response }) {
     try {
       mongoose.connect(Env.get('MONGO_CONNECTION_STRING'), {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
-      // const { id } = request.only(['id'])
-      const data = await Person.find({ idUser: '5' })
+      const { id } = request.only(['id'])
+      const data = await Person.find({"idUser": id.toString()})
       return response.status(200).json(data)
     } catch (e) {
       return response.status(400).send({ Error: e })
