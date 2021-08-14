@@ -1,8 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-import Token from 'App/Models/Token'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { schema } from '@ioc:Adonis/Core/Validator'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class UsersController {
   public async index({ response }: HttpContextContract) {
@@ -78,7 +78,8 @@ export default class UsersController {
 
   public async getUID({ request, response }: HttpContextContract) {
     const { token } = request.only(['token'])
-    const idUser = await Token.query().select('user_id').from('api_tokens').where('token', token)
+    const idUser = await Database.from('api_tokens').select('user_id').where('token', token)
+    console.log(idUser)
     response.status(200).json(idUser)
   }
 }
