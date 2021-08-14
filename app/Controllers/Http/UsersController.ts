@@ -77,10 +77,8 @@ export default class UsersController {
   }
 
   public async getUID({ request, response }: HttpContextContract) {
-    const { token } = request.only(['token'])
-    const token2 = await Hash.make(token)
-    const idUser = await Database.from('api_tokens').select('user_id').where('token', token2)
-    console.log(idUser)
-    response.status(200).json(idUser)
+    const { email } = request.only(['email'])
+    const user = await User.query().where('email', email).firstOrFail()
+    return response.status(200).json(user.id)
   }
 }
