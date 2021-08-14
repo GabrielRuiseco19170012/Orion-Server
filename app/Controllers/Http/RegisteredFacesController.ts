@@ -227,12 +227,11 @@ export default class RegisteredFacesController {
       const fileSchema = schema.create({
         image: schema.file({
           size: '2mb',
-          extnames: ['jpg', 'gif', 'png'],
+          // extnames: ['jpg', 'gif', 'png'],
         }),
       })
       const coverImage = request.file('image', {
         size: '2mb',
-        extnames: ['jpg', 'png', 'gif'],
       })
       // @ts-ignore
       const photo = `${cuid()}.${coverImage.extname}`
