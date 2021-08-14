@@ -267,7 +267,7 @@ export default class RegisteredFacesController {
         useUnifiedTopology: true,
       })
       const { id } = request.only(['id'])
-      const data = await Person.find({ idUser: id })
+      const data = await Person.find({ "idUser": id })
       return response.status(200).json(data)
     } catch (e) {
       return response.status(400).send({ Error: e })
