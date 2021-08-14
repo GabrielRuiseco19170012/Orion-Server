@@ -260,13 +260,14 @@ export default class RegisteredFacesController {
     }
   }
 
-  public async mongoIndex({ response }) {
-    mongoose.connect(Env.get('MONGO_CONNECTION_STRING'), {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    const data = await Person.find({})
+  public async mongoIndex({ request, response }) {
     try {
+      mongoose.connect(Env.get('MONGO_CONNECTION_STRING'), {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      const { id } = request.only(['id'])
+      const data = await Person.find({ uid: id })
       return response.status(200).json(data)
     } catch (e) {
       return response.status(400).send({ Error: e })
