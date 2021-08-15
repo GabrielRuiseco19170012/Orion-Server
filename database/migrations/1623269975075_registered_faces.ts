@@ -9,6 +9,7 @@ export default class RegisteredFaces extends BaseSchema {
       table.integer('user_id').unsigned().references('id').inTable('users')
       table.string('name').notNullable()
       table.string('photo').nullable()
+      table.string('face_token').notNullable()
       table.integer('faceset_id').unsigned().references('id').inTable('facesets')
       table.boolean('access').notNullable()
       /**

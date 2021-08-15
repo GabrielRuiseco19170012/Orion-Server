@@ -25,39 +25,47 @@ export default class RegisteredFacesController {
   }
 
   public async create({ request, response }: HttpContextContract) {
-    const newFaceSchema = schema.create({
-      user_id: schema.number(),
-      name: schema.string(),
-      access: schema.boolean(),
-      photo: schema.string.optional(),
-    })
-
-    // const fileSchema = schema.create({
-    //   image: schema.file({
-    //     size: '2mb',
-    //     extnames: ['jpg', 'gif', 'png'],
-    //   }),
-    // })
-    // const coverImage = request.file('image', {
-    //   size: '2mb',
-    //   extnames: ['jpg', 'png', 'gif'],
-    // })
-    // // @ts-ignore
-    // const photo = `${cuid()}.${coverImage.extname}`
-    // const payload = await request.validate({ schema: fileSchema })
-    // if (payload) {
-    const payload2 = await request.validate({
-      schema: newFaceSchema,
-      data: request.only(['user_id', 'name', 'access', 'photo']),
-    })
-    if (payload2) {
-      // await payload.image.move(Application.tmpPath('uploads'), { name: photo })
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      const { user_id, name, access, photo } = request.only(['user_id', 'name', 'access', 'photo'])
-      await RegisteredFace.create({ user_id, name, access, photo })
-      return response.status(201).send({ message: 'Registered Face' })
-    }
-    // }
+    try {
+      const newFaceSchema = schema.create({
+        user_id: schema.number(),
+        name: schema.string(),
+        access: schema.boolean(),
+        photo: schema.string.optional(),
+      })
+      const payload2 = await request.validate({
+        schema: newFaceSchema,
+        data: request.only(['user_id', 'name', 'access', 'photo']),
+      })
+      if (payload2) {
+        console.log('llegado3')
+        const { user_id, name, access, photo, faceset_id, face_token, faceset_token } =
+          request.only([
+            'user_id',
+            'name',
+            'access',
+            'photo',
+            'faceset_id',
+            'face_token',
+            'faceset_token',
+          ])
+        console.log('llegado1')
+        const result = await axios
+          .post('https://api-us.faceplusplus.com/facepp/v3/faceset/addface', null, {
+            params: {
+              api_key: Env.get('FACEAPIKEY'),
+              api_secret: Env.get('FACEAPISECRET'),
+              faceset_token: faceset_token,
+              face_tokens: face_token,
+            },
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+        console.log('llegado2')
+        await RegisteredFace.create({ user_id, name, access, photo, faceset_id, face_token })
+        return response.status(201).send({ message: 'Registered Face', result: result.data })
+      }
+    } catch (e) {}
   }
 
   public async serveFile({ request, response }: HttpContextContract) {
@@ -123,7 +131,7 @@ export default class RegisteredFacesController {
       .catch(function (error) {
         console.log(error)
       })
-    return response.status(200).json(result)
+    return response.status(200).json(result.data.results[0])
   }
 
   public async createFaceSet({ request, response }: HttpContextContract) {
@@ -267,7 +275,7 @@ export default class RegisteredFacesController {
         useUnifiedTopology: true,
       })
       const { id } = request.only(['id'])
-      const data = await Person.find({"idUser": id.toString()})
+      const data = await Person.find({ idUser: id.toString() })
       return response.status(200).json(data)
     } catch (e) {
       return response.status(400).send({ Error: e })

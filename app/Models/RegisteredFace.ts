@@ -15,6 +15,12 @@ export default class RegisteredFace extends BaseModel {
   public photo: string
 
   @column()
+  public face_token: string
+
+  @column()
+  public faceset_id: number
+
+  @column()
   public access?: boolean
 
   @column.dateTime({ autoCreate: true })

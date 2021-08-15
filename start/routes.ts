@@ -35,7 +35,7 @@ Route.put('userUpdate', 'UsersController.update').middleware(['auth'])
 Route.delete('userDelete', 'UserControllers.destroy').middleware(['auth'])
 
 Route.post('compare', 'RegisteredFacesController.compare')
-Route.post('access', 'RegisteredFacesController.create')
+Route.post('genAccess', 'RegisteredFacesController.create')
 Route.get('faces', 'RegisteredFacesController.index')
 
 Route.get('serveFile', 'RegisteredFacesController.serveFile')
@@ -47,3 +47,7 @@ Route.post('createFT', 'RegisteredFacesController.createFaceToken')
 Route.post('createFS', 'RegisteredFacesController.createFaceSet')
 
 Route.post('mu', 'RegisteredFacesController.mongoUpdate')
+Route.post('search', 'RegisteredFacesController.search')
+
+Route.post('storeFS', 'FacesetsController.create')
+Route.delete('deleteFS', 'FacesetsController.destroy')
