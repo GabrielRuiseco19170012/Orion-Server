@@ -288,8 +288,8 @@ export default class RegisteredFacesController {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
-      const { id } = request.only(['id'])
-      Person.deleteOne({ _id: id })
+      const { id } = await request.only(['id'])
+      await Person.deleteOne({ _id: id })
     } catch (e) {
       return response.json(e)
     }
