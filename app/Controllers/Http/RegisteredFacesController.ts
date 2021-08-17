@@ -226,7 +226,7 @@ export default class RegisteredFacesController {
     }
   }
 
-  public async mongoCreate({ request, response }) {
+  public async mongoCreate({ request, response }: HttpContextContract) {
     try {
       mongoose.connect(Env.get('MONGO_CONNECTION_STRING'), {
         useNewUrlParser: true,
@@ -268,7 +268,7 @@ export default class RegisteredFacesController {
     }
   }
 
-  public async mongoIndex({ request, response }) {
+  public async mongoIndex({ request, response }: HttpContextContract) {
     try {
       mongoose.connect(Env.get('MONGO_CONNECTION_STRING'), {
         useNewUrlParser: true,
@@ -279,6 +279,19 @@ export default class RegisteredFacesController {
       return response.status(200).json(data)
     } catch (e) {
       return response.status(400).send({ Error: e })
+    }
+  }
+
+  public async mongoDelete({ request, response }: HttpContextContract) {
+    try {
+      mongoose.connect(Env.get('MONGO_CONNECTION_STRING'), {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      const { id } = request.only(['id'])
+      Person.deleteOne({ _id: id.toString() })
+    } catch (e) {
+      return response.json(e)
     }
   }
 }

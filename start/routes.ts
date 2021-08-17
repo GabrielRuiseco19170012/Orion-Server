@@ -51,3 +51,7 @@ Route.post('search', 'RegisteredFacesController.search')
 
 Route.post('storeFS', 'FacesetsController.create')
 Route.delete('deleteFS', 'FacesetsController.destroy')
+
+Route.delete('dissmis', 'RegisteredFacesController.mongoDelete')
+
+Route.get('sets', 'FacesetsController.index')

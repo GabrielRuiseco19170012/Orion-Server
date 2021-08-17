@@ -2,7 +2,10 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Faceset from 'App/Models/Faceset'
 
 export default class FacesetsController {
-  public async index({}: HttpContextContract) {}
+  public async index({ response }: HttpContextContract) {
+    const sets = await Faceset.all()
+    return response.status(200).json(sets)
+  }
 
   public async create({ request, response }: HttpContextContract) {
     const { display_name, faceset_token } = request.only(['display_name', 'faceset_token'])
