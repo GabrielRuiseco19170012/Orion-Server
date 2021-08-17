@@ -245,7 +245,7 @@ export default class RegisteredFacesController {
       // @ts-ignore
       const photo = `${cuid()}.${coverImage.extname}`
       const payload = await request.validate({ schema: fileSchema })
-      await payload.image.move(Application.tmpPath('uploads'), { name: photo })
+      await payload.image.move(Application.tmpPath('../img'), { name: photo })
       const result = await axios
         .post('https://api-us.faceplusplus.com/facepp/v3/detect', null, {
           params: {
@@ -257,9 +257,6 @@ export default class RegisteredFacesController {
         .catch(function (error) {
           console.log(error)
         })
-      // const data = await Person.create({
-      //   photo: photo,
-      // })
       return response
         .status(201)
         .json({ photo: photo, face_token: result.data.faces[0].face_token })
