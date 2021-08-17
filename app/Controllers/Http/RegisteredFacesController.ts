@@ -289,7 +289,7 @@ export default class RegisteredFacesController {
         useUnifiedTopology: true,
       })
       const { id } = request.only(['id'])
-      Person.deleteOne({ _id: id.toString() })
+      Person.deleteOne({ _id: id })
     } catch (e) {
       return response.json(e)
     }
