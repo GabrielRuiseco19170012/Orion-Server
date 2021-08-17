@@ -70,7 +70,7 @@ export default class RegisteredFacesController {
 
   public async serveFile({ request, response }: HttpContextContract) {
     // return response.attachment(Application.tmpPath('uploads', request.input('photo')))
-    return response.attachment('img', request.input('photo'))
+    return response.attachment(Application.tmpPath('../img', request.input('photo')))
   }
 
   public async show({ request, response }: HttpContextContract) {
