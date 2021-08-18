@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Faceset from 'App/Models/Faceset'
 
 export default class FacesetsController {
+
   public async index({ response }: HttpContextContract) {
     const sets = await Faceset.all()
     return response.status(200).json(sets)
@@ -18,7 +19,11 @@ export default class FacesetsController {
 
   public async store({}: HttpContextContract) {}
 
-  public async show({}: HttpContextContract) {}
+  public async show({ request, response }: HttpContextContract) {
+    const { id } = request.only(['id'])
+    const facesets = await Faceset.findBy('user_id', id)
+    return response.status(200).json(facesets)
+  }
 
   public async edit({}: HttpContextContract) {}
 

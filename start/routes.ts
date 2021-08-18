@@ -54,4 +54,8 @@ Route.delete('deleteFS', 'FacesetsController.destroy')
 
 Route.delete('dissmis', 'RegisteredFacesController.mongoDelete')
 
+Route.delete('removeAccess', 'RegisteredFacesController.destroy')
+
 Route.get('sets', 'FacesetsController.index')
+
+Route.get('indexAccess', 'RegisteredFacesController.index')

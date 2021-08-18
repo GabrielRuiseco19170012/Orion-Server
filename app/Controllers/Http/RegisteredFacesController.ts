@@ -4,6 +4,7 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import Application from '@ioc:Adonis/Core/Application'
 import cuid from 'cuid'
 import Env from '@ioc:Adonis/Core/Env'
+import Faceset from 'App/Models/Faceset'
 
 const mongoose = require('mongoose')
 const personSchema = new mongoose.Schema(
@@ -95,9 +96,24 @@ export default class RegisteredFacesController {
     }
   }
 
-  public async destroy({ request }: HttpContextContract) {
-    const face = await RegisteredFace.findBy('id', request.only(['id']))
+  public async destroy({ request, response }: HttpContextContract) {
+    const { id } = request.only(['id'])
+    const face = await RegisteredFace.findBy('id', id)
+    const faceset = await Faceset.findBy('id', face?.faceset_id)
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/removeface', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          faceset_token: faceset?.faceset_token,
+          face_tokens: face?.face_token,
+        },
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
     await face?.delete()
+    return response.json(result)
   }
 
   public async compare({ request, response }: HttpContextContract) {
