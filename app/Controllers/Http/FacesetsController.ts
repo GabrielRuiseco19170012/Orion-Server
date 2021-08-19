@@ -7,7 +7,7 @@ const axios = require('axios')
 export default class FacesetsController {
   public async index({ request, response }: HttpContextContract) {
     const { id } = request.only(['id'])
-    const sets = await Database.from('facesets').select('*').where('id', id)
+    const sets = await Faceset.findBy('id', id)
     return response.status(200).json(sets)
   }
 
@@ -41,7 +41,7 @@ export default class FacesetsController {
 
   public async show({ request, response }: HttpContextContract) {
     const { id } = request.only(['id'])
-    const facesets = await Faceset.findBy('user_id', id)
+    const facesets = await Database.from('facesets').select('*').where('user_id', id)
     return response.status(200).json(facesets)
   }
 
