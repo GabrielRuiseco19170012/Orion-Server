@@ -56,7 +56,7 @@ Route.delete('dissmis', 'RegisteredFacesController.mongoDelete')
 
 Route.delete('removeAccess', 'RegisteredFacesController.destroy')
 
-Route.get('sets', 'FacesetsController.index')
+Route.post('set', 'FacesetsController.index')
 
 Route.get('showSets', 'FacesetsController.show')
 

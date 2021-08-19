@@ -4,8 +4,9 @@ import Env from '@ioc:Adonis/Core/Env'
 const axios = require('axios')
 
 export default class FacesetsController {
-  public async index({ response }: HttpContextContract) {
-    const sets = await Faceset.all()
+  public async index({ request, response }: HttpContextContract) {
+    const { id } = request.only(['id'])
+    const sets = await Faceset.findBy('id', id)
     return response.status(200).json(sets)
   }
 
