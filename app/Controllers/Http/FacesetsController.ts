@@ -26,7 +26,7 @@ export default class FacesetsController {
     console.log(user_id)
     console.log(result)
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const faceset_token = result.data.results[0].faceset_token
+    const faceset_token = result.data.faceset_token
     const faceset = await Faceset.create({
       display_name,
       faceset_token,
