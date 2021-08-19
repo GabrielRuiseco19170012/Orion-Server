@@ -1,12 +1,13 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Faceset from 'App/Models/Faceset'
 import Env from '@ioc:Adonis/Core/Env'
+import Database from '@ioc:Adonis/Lucid/Database'
 const axios = require('axios')
 
 export default class FacesetsController {
   public async index({ request, response }: HttpContextContract) {
     const { id } = request.only(['id'])
-    const sets = await Faceset.findMany(id)
+    const sets = await Database.from('facesets').select('*').where('id', id)
     return response.status(200).json(sets)
   }
 
