@@ -1,15 +1,28 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Faceset from 'App/Models/Faceset'
+import Env from '@ioc:Adonis/Core/Env'
+const axios = require('axios')
 
 export default class FacesetsController {
-
   public async index({ response }: HttpContextContract) {
     const sets = await Faceset.all()
     return response.status(200).json(sets)
   }
 
   public async create({ request, response }: HttpContextContract) {
-    const { display_name, faceset_token, user_id } = request.only(['display_name', 'faceset_token', 'user_id'])
+    const { display_name, user_id } = request.only(['display_name', 'user_id'])
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/create', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          display_name: display_name,
+        },
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    const faceset_token = result.data.results[0].faceset_token
     const faceset = await Faceset.create({
       display_name,
       faceset_token,
