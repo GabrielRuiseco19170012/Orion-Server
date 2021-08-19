@@ -49,6 +49,18 @@ export default class FacesetsController {
 
   public async destroy({ request }: HttpContextContract) {
     const faceset = await Faceset.findBy('id', request.only(['id']))
+    const result = await axios
+      .post('https://api-us.faceplusplus.com/facepp/v3/faceset/delete', null, {
+        params: {
+          api_key: Env.get('FACEAPIKEY'),
+          api_secret: Env.get('FACEAPISECRET'),
+          faceset_token: faceset?.faceset_token,
+        },
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
     await faceset?.delete()
+    return result
   }
 }
