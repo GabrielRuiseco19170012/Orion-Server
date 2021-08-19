@@ -6,7 +6,7 @@ const axios = require('axios')
 export default class FacesetsController {
   public async index({ request, response }: HttpContextContract) {
     const { id } = request.only(['id'])
-    const sets = await Faceset.findBy('id', id)
+    const sets = await Faceset.findMany(id)
     return response.status(200).json(sets)
   }
 
