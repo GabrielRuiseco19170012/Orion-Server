@@ -11,13 +11,13 @@ export default class FacesetsController {
 
   public async create({ request, response }: HttpContextContract) {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { disName, user_id } = request.only(['disName', 'user_id'])
+    const { display_name, user_id } = request.only(['display_name', 'user_id'])
     const result = await axios
       .post('https://api-us.faceplusplus.com/facepp/v3/faceset/create', null, {
         params: {
           api_key: Env.get('FACEAPIKEY'),
           api_secret: Env.get('FACEAPISECRET'),
-          display_name: disName,
+          display_name: display_name,
         },
       })
       .catch(function (error) {

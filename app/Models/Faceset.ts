@@ -11,6 +11,9 @@ export default class Faceset extends BaseModel {
   @column()
   public faceset_token: string
 
+  @column()
+  public user_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
