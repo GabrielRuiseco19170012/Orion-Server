@@ -58,4 +58,6 @@ Route.delete('removeAccess', 'RegisteredFacesController.destroy')
 
 Route.get('sets', 'FacesetsController.index')
 
+Route.get('showSets', 'FacesetsController.show')
+
 Route.get('indexAccess', 'RegisteredFacesController.index')
