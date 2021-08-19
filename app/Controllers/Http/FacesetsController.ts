@@ -22,6 +22,8 @@ export default class FacesetsController {
       .catch(function (error) {
         console.log(error)
       })
+    console.log(user_id)
+    console.log(result)
     const faceset_token = result.data.results[0].faceset_token
     const faceset = await Faceset.create({
       display_name,
