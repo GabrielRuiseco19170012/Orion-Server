@@ -9,10 +9,11 @@ export default class FacesetsController {
   }
 
   public async create({ request, response }: HttpContextContract) {
-    const { display_name, faceset_token } = request.only(['display_name', 'faceset_token'])
+    const { display_name, faceset_token, user_id } = request.only(['display_name', 'faceset_token', 'user_id'])
     const faceset = await Faceset.create({
       display_name,
       faceset_token,
+      user_id,
     })
     return response.status(201).json(faceset)
   }
